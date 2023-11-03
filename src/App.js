@@ -22,14 +22,14 @@ function App() {
 							onClick={() => {
 								setJSONdata(file.files);
 							}}>
-							./{file.name}
+							./{file.name} - {file.size}kB
 							<div className="tab">{mapFiles(file.files)}</div>
 						</div>
 					);
 				} else {
 					return (
 						<div key={file.name}>
-							{file.name}.{file.type}
+							{file.name}.{file.type} - {file.size}kB
 						</div>
 					);
 				}
