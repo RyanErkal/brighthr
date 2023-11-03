@@ -23,7 +23,7 @@ function App() {
 								setJSONdata(file.files);
 							}}>
 							./{file.name}
-							<span className="tab">{mapFiles(file.files)}</span>
+							<div className="tab">{mapFiles(file.files)}</div>
 						</div>
 					);
 				} else {
