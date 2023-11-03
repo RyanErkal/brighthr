@@ -76,6 +76,7 @@ function App() {
 	return (
 		<div className="App">
 			<h1>Bright HR</h1>
+			<button onClick={() => setJSONdata(JSON)}>Back</button>
 			<select name="sort" onChange={handleSortChange}>
 				<option value="">Sort by</option>
 				<option value="name">Name</option>
