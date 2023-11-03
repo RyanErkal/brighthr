@@ -1,6 +1,12 @@
-import { expect, test } from "@jest/globals";
+import "@testing-library/jest-dom";
+import "@testing-library/jest-dom/extend-expect";
+import { render, screen } from "@testing-library/react";
 import App from "./App";
 
-test("initial states", () => {
-	expect(App.files).toBe("");
+test("List renders successfully", () => {
+	render(<App />);
+
+	const element = screen.getByText(/Public Holiday/);
+
+	expect(element).toBeInTheDocument();
 });
