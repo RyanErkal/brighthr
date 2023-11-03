@@ -1,5 +1,5 @@
 import { useState, useLayoutEffect } from "react";
-import JSONdata from "./assets/data.json";
+import JSON from "./assets/data.json";
 import "./App.css";
 
 function App() {
@@ -7,6 +7,7 @@ function App() {
 	const [sort, setSort] = useState("");
 	const [sortOrder, setSortOrder] = useState("asc");
 	const [filter, setFilter] = useState("");
+	const [JSONdata, setJSONdata] = useState(JSON);
 
 	useLayoutEffect(() => {
 		setFiles(mapFiles(sortFiles(filterFiles(JSONdata))));
@@ -15,7 +16,12 @@ function App() {
 			const mappedFiles = data.map((file) => {
 				if (file.type === "folder") {
 					return (
-						<div className="folder" key={file.name}>
+						<div
+							className="folder"
+							key={file.name}
+							onClick={() => {
+								setJSONdata(file.files);
+							}}>
 							./{file.name}
 							<span className="tab">{mapFiles(file.files)}</span>
 						</div>
@@ -53,7 +59,7 @@ function App() {
 			});
 			return filteredFiles;
 		}
-	}, [sort, sortOrder, filter]);
+	}, [sort, sortOrder, filter, JSONdata]);
 
 	function handleSortChange(e) {
 		setSort(e.target.value);

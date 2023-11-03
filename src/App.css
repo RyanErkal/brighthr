@@ -12,3 +12,8 @@
 	display: inline-block;
 	margin-left: 4rem;
 }
+
+.folder:hover {
+	color: red;
+	cursor: pointer;
+}
