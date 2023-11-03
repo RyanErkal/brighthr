@@ -4,11 +4,12 @@ import "./App.css";
 
 function App() {
 	const [files, setFiles] = useState("");
-	const [sort, setSort] = useState("name");
+	const [sort, setSort] = useState("");
 	const [sortOrder, setSortOrder] = useState("asc");
+	const [filter, setFilter] = useState("");
 
 	useLayoutEffect(() => {
-		setFiles(mapFiles(sortFiles(JSONdata)));
+		setFiles(mapFiles(sortFiles(filterFiles(JSONdata))));
 
 		function mapFiles(data) {
 			const mappedFiles = data.map((file) => {
@@ -45,7 +46,14 @@ function App() {
 			}
 			return sortedFiles;
 		}
-	}, [sort, sortOrder]);
+
+		function filterFiles(data) {
+			const filteredFiles = data.filter((file) => {
+				return file.name.toLowerCase().includes(filter.toLowerCase());
+			});
+			return filteredFiles;
+		}
+	}, [sort, sortOrder, filter]);
 
 	function handleSortChange(e) {
 		setSort(e.target.value);
@@ -55,9 +63,13 @@ function App() {
 		setSortOrder(e.target.value);
 	}
 
+	function handleFilterChange(data) {
+		setFilter(data);
+	}
+
 	return (
 		<div className="App">
-			<h1>Bright HR{sort}</h1>
+			<h1>Bright HR</h1>
 			<select name="sort" onChange={handleSortChange}>
 				<option value="">Sort by</option>
 				<option value="name">Name</option>
@@ -65,10 +77,14 @@ function App() {
 				<option value="date">Date</option>
 			</select>
 			<select name="sortOrder" onChange={handleSortOrderChange}>
-				<option value="">Sort Order</option>
 				<option value="asc">Ascending</option>
 				<option value="desc">Descending</option>
 			</select>
+			<input
+				type="text"
+				placeholder="Filter by name"
+				onChange={(e) => handleFilterChange(e.target.value)}
+			/>
 			<pre>{files}</pre>
 		</div>
 	);
