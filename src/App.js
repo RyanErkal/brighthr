@@ -3,33 +3,49 @@ import JSONdata from "./assets/data.json";
 import "./App.css";
 
 function App() {
-	const [files, setFiles] = useState(mapFiles(JSONdata));
-	const [sort, setSort] = useState("");
+	const [files, setFiles] = useState("");
+	const [sort, setSort] = useState("name");
 	const [sortOrder, setSortOrder] = useState("asc");
 
 	useLayoutEffect(() => {
 		setFiles(mapFiles(sortFiles(JSONdata)));
-	}, [sort, sortOrder]);
 
-	function mapFiles(data) {
-		const mappedFiles = data.map((file) => {
-			if (file.type === "folder") {
-				return (
-					<div className="folder" key={file.name}>
-						./{file.name}
-						<span className="tab">{mapFiles(file.files)}</span>
-					</div>
-				);
-			} else {
-				return (
-					<div key={file.name}>
-						{file.name}.{file.type}
-					</div>
-				);
+		function mapFiles(data) {
+			const mappedFiles = data.map((file) => {
+				if (file.type === "folder") {
+					return (
+						<div className="folder" key={file.name}>
+							./{file.name}
+							<span className="tab">{mapFiles(file.files)}</span>
+						</div>
+					);
+				} else {
+					return (
+						<div key={file.name}>
+							{file.name}.{file.type}
+						</div>
+					);
+				}
+			});
+			return mappedFiles;
+		}
+
+		function sortFiles(data) {
+			const sortedFiles = data.sort((a, b) => {
+				if (sort === "name") {
+					return a.name.localeCompare(b.name);
+				} else if (sort === "size") {
+					return a.size - b.size;
+				} else {
+					return new Date(a.added) - new Date(b.added);
+				}
+			});
+			if (sortOrder === "desc") {
+				sortedFiles.reverse();
 			}
-		});
-		return mappedFiles;
-	}
+			return sortedFiles;
+		}
+	}, [sort, sortOrder]);
 
 	function handleSortChange(e) {
 		setSort(e.target.value);
@@ -37,22 +53,6 @@ function App() {
 
 	function handleSortOrderChange(e) {
 		setSortOrder(e.target.value);
-	}
-
-	function sortFiles(data) {
-		const sortedFiles = data.sort((a, b) => {
-			if (sort === "name") {
-				return a.name.localeCompare(b.name);
-			} else if (sort === "size") {
-				return a.size - b.size;
-			} else if (sort === "date") {
-				return new Date(a.added) - new Date(b.added);
-			}
-		});
-		if (sortOrder === "desc") {
-			sortedFiles.reverse();
-		}
-		return sortedFiles;
 	}
 
 	return (
