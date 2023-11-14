@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import JSON from "./assets/data.json";
 import "./App.css";
 import File from "./components/File";
